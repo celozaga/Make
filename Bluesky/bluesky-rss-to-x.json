@@ -1,1 +1,384 @@
-
+{
+    "name": "Bluesky (RSS) to X",
+    "flow": [
+        {
+            "id": 1,
+            "module": "rss:TriggerNewArticle",
+            "version": 4,
+            "parameters": {
+                "url": "https://bsky.app/profile/celozaga.bsky.social/rss",
+                "maxResults": 1,
+                "username": "",
+                "password": "",
+                "include": [],
+                "gzip": false
+            },
+            "mapper": {},
+            "metadata": {
+                "designer": {
+                    "x": 0,
+                    "y": 0
+                },
+                "restore": {},
+                "parameters": [
+                    {
+                        "name": "url",
+                        "type": "url",
+                        "label": "URL",
+                        "required": true
+                    },
+                    {
+                        "name": "maxResults",
+                        "type": "number",
+                        "label": "Maximum number of returned items",
+                        "required": true
+                    },
+                    {
+                        "name": "username",
+                        "type": "text",
+                        "label": "User name"
+                    },
+                    {
+                        "name": "password",
+                        "type": "text",
+                        "label": "Password"
+                    },
+                    {
+                        "name": "include",
+                        "type": "select",
+                        "label": "Process RSS fields",
+                        "multiple": true,
+                        "validate": {
+                            "enum": [
+                                "google-merchant-center",
+                                "itunes"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "gzip",
+                        "type": "boolean",
+                        "label": "Request compressed content",
+                        "required": true
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "title",
+                        "type": "text",
+                        "label": "Title"
+                    },
+                    {
+                        "name": "description",
+                        "type": "text",
+                        "label": "Description"
+                    },
+                    {
+                        "name": "summary",
+                        "type": "text",
+                        "label": "Summary"
+                    },
+                    {
+                        "name": "author",
+                        "type": "text",
+                        "label": "Author"
+                    },
+                    {
+                        "name": "url",
+                        "type": "url",
+                        "label": "URL"
+                    },
+                    {
+                        "name": "dateUpdated",
+                        "type": "date",
+                        "label": "Date updated"
+                    },
+                    {
+                        "name": "dateCreated",
+                        "type": "date",
+                        "label": "Date created"
+                    },
+                    {
+                        "name": "comments",
+                        "type": "url",
+                        "label": "Comments"
+                    },
+                    {
+                        "name": "image",
+                        "type": "collection",
+                        "label": "Image",
+                        "spec": [
+                            {
+                                "name": "title",
+                                "label": "Name",
+                                "type": "text"
+                            },
+                            {
+                                "name": "url",
+                                "label": "URL",
+                                "type": "url"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "categories",
+                        "type": "array",
+                        "label": "Categories",
+                        "spec": {
+                            "type": "text"
+                        }
+                    },
+                    {
+                        "name": "source",
+                        "type": "collection",
+                        "label": "Source",
+                        "spec": [
+                            {
+                                "name": "title",
+                                "label": "Name",
+                                "type": "text"
+                            },
+                            {
+                                "name": "url",
+                                "label": "URL",
+                                "type": "url"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "enclosures",
+                        "type": "array",
+                        "label": "Enclosures",
+                        "spec": [
+                            {
+                                "name": "url",
+                                "label": "URL",
+                                "type": "url"
+                            },
+                            {
+                                "name": "type",
+                                "label": "Type",
+                                "type": "text"
+                            },
+                            {
+                                "name": "length",
+                                "label": "Length",
+                                "type": "number"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "rssFields",
+                        "label": "RSS fields",
+                        "help": "Other RSS fields. All values are in text format.",
+                        "type": "collection",
+                        "spec": [
+                            {
+                                "name": "link",
+                                "label": "link",
+                                "type": "text"
+                            },
+                            {
+                                "name": "description",
+                                "label": "description",
+                                "type": "text"
+                            },
+                            {
+                                "name": "pubdate",
+                                "label": "pubdate",
+                                "type": "text"
+                            },
+                            {
+                                "name": "guid",
+                                "label": "guid",
+                                "type": "text"
+                            }
+                        ]
+                    }
+                ],
+                "advanced": true
+            }
+        },
+        {
+            "id": 4,
+            "module": "regexp:Replace",
+            "version": 1,
+            "parameters": {},
+            "mapper": {
+                "pattern": "\\[\\bcontains quote post or other embedded content\\b\\]",
+                "value": " ",
+                "global": false,
+                "sensitive": true,
+                "multiline": false,
+                "singleline": false,
+                "text": "{{1.summary}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 386,
+                    "y": -6
+                },
+                "restore": {
+                    "expect": {
+                        "global": {
+                            "mode": "chose"
+                        },
+                        "sensitive": {
+                            "mode": "chose"
+                        },
+                        "multiline": {
+                            "mode": "chose"
+                        },
+                        "singleline": {
+                            "mode": "chose"
+                        }
+                    }
+                },
+                "expect": [
+                    {
+                        "name": "pattern",
+                        "type": "text",
+                        "label": "Pattern",
+                        "required": true
+                    },
+                    {
+                        "name": "value",
+                        "type": "text",
+                        "label": "New value"
+                    },
+                    {
+                        "name": "global",
+                        "type": "boolean",
+                        "label": "Global match",
+                        "required": true
+                    },
+                    {
+                        "name": "sensitive",
+                        "type": "boolean",
+                        "label": "Case sensitive",
+                        "required": true
+                    },
+                    {
+                        "name": "multiline",
+                        "type": "boolean",
+                        "label": "Multiline",
+                        "required": true
+                    },
+                    {
+                        "name": "singleline",
+                        "type": "boolean",
+                        "label": "Singleline",
+                        "required": true
+                    },
+                    {
+                        "name": "text",
+                        "type": "text",
+                        "label": "Text"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 2,
+            "module": "twitter:createATweet",
+            "version": 6,
+            "parameters": {
+                "__IMTCONN__": 133345
+            },
+            "mapper": {
+                "text": "{{4.text}} {{1.url}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 963,
+                    "y": -3
+                },
+                "restore": {
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "label": "X",
+                            "data": {
+                                "scoped": "true",
+                                "connection": "twitter2"
+                            }
+                        }
+                    },
+                    "expect": {
+                        "media_ids": {
+                            "mode": "edit"
+                        },
+                        "for_super_followers_only": {
+                            "mode": "chose"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:twitter2",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "text",
+                        "type": "text",
+                        "label": "Text Content",
+                        "required": true
+                    },
+                    {
+                        "name": "media_ids",
+                        "type": "array",
+                        "label": "Media IDs",
+                        "mode": "edit",
+                        "spec": {
+                            "type": "text",
+                            "name": "value"
+                        }
+                    },
+                    {
+                        "name": "place_id",
+                        "type": "text",
+                        "label": "Place ID"
+                    },
+                    {
+                        "name": "direct_message_deep_link",
+                        "type": "url",
+                        "label": "Direct Message Link"
+                    },
+                    {
+                        "name": "for_super_followers_only",
+                        "type": "boolean",
+                        "label": "Allow to Post Exclusively for Super Followers Only"
+                    },
+                    {
+                        "name": "quote_tweet_id",
+                        "type": "text",
+                        "label": "Quote Post ID"
+                    }
+                ]
+            }
+        }
+    ],
+    "metadata": {
+        "instant": false,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": false,
+            "slots": null,
+            "confidential": false,
+            "dataloss": true,
+            "dlq": false,
+            "freshVariables": false
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "us2.make.com"
+    }
+}
