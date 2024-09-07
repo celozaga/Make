@@ -1,5 +1,5 @@
 {
-    "name": "Bluesky (RSS) to X",
+    "name": "Bluesky Posts (RSS) to X",
     "flow": [
         {
             "id": 1,
