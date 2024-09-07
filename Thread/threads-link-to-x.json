@@ -1,5 +1,5 @@
 {
-    "name": "Threads RSS Feed to X",
+    "name": "Threads to X",
     "flow": [
         {
             "id": 2,
@@ -206,12 +206,6 @@
                         ]
                     }
                 ]
-            },
-            "data": {
-                "lastDate": "2024-08-29T13:59:38.000Z",
-                "lastId": null,
-                "epochType": "select",
-                "epochId": "https://www.threads.net/t/C_QaJhepB8j"
             }
         },
         {
@@ -270,13 +264,13 @@
             "version": 1,
             "parameters": {},
             "mapper": {
-                "pattern": "@zuck: ",
-                "value": "→ ",
+                "pattern": "@{{2.author}}:",
+                "value": " ",
                 "global": true,
                 "sensitive": false,
                 "multiline": false,
                 "singleline": false,
-                "text": "{{5.text}}"
+                "text": "{{2.title}}"
             },
             "metadata": {
                 "designer": {
@@ -351,36 +345,29 @@
                 "__IMTCONN__": 3372015
             },
             "mapper": {
-                "text": "{{6.text}} {{8.text}}"
+                "text": "{{6.text}} {{2.url}}"
             },
             "metadata": {
                 "designer": {
                     "x": 997,
-                    "y": 0,
-                    "messages": [
-                        {
-                            "category": "reference",
-                            "severity": "warning",
-                            "message": "Referenced module 'Text parser - Replace' [8] is not accessible."
-                        }
-                    ]
+                    "y": 0
                 },
                 "restore": {
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "label": "X",
+                            "data": {
+                                "scoped": "true",
+                                "connection": "twitter2"
+                            }
+                        }
+                    },
                     "expect": {
                         "media_ids": {
                             "mode": "edit"
                         },
                         "for_super_followers_only": {
                             "mode": "chose"
-                        }
-                    },
-                    "parameters": {
-                        "__IMTCONN__": {
-                            "data": {
-                                "scoped": "true",
-                                "connection": "twitter2"
-                            },
-                            "label": "X"
                         }
                     }
                 },
@@ -400,14 +387,14 @@
                         "required": true
                     },
                     {
-                        "mode": "edit",
                         "name": "media_ids",
-                        "spec": {
-                            "name": "value",
-                            "type": "text"
-                        },
                         "type": "array",
-                        "label": "Media IDs"
+                        "label": "Media IDs",
+                        "mode": "edit",
+                        "spec": {
+                            "type": "text",
+                            "name": "value"
+                        }
                     },
                     {
                         "name": "place_id",
