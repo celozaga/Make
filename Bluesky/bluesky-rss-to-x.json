@@ -1,12 +1,12 @@
 {
-    "name": "Bluesky Posts (RSS) to X",
+    "name": "Integration RSS, X (formerly Twitter)",
     "flow": [
         {
             "id": 1,
             "module": "rss:TriggerNewArticle",
             "version": 4,
             "parameters": {
-                "url": "https://bsky.app/profile/celozaga.bsky.social/rss",
+                "url": "https://bsky.app/profile/did:plc:z3iv7sislzx57xdvnyykvhwe/rss",
                 "maxResults": 1,
                 "username": "",
                 "password": "",
@@ -205,13 +205,13 @@
             "version": 1,
             "parameters": {},
             "mapper": {
-                "pattern": "\\[\\bcontains quote post or other embedded content\\b\\]",
-                "value": " ",
+                "text": "{{1.summary}}",
+                "value": "...",
                 "global": false,
-                "sensitive": true,
+                "pattern": "\\[\\bcontains quote post or other embedded content\\b\\]",
                 "multiline": false,
-                "singleline": false,
-                "text": "{{1.summary}}"
+                "sensitive": true,
+                "singleline": false
             },
             "metadata": {
                 "designer": {
@@ -223,10 +223,10 @@
                         "global": {
                             "mode": "chose"
                         },
-                        "sensitive": {
+                        "multiline": {
                             "mode": "chose"
                         },
-                        "multiline": {
+                        "sensitive": {
                             "mode": "chose"
                         },
                         "singleline": {
@@ -286,17 +286,17 @@
                 "__IMTCONN__": 133345
             },
             "mapper": {
-                "text": "{{4.text}} {{1.url}}"
+                "text": "{{substring(4.text; 0; 210)}} {{1.url}}"
             },
             "metadata": {
                 "designer": {
-                    "x": 963,
-                    "y": -3
+                    "x": 771,
+                    "y": -6
                 },
                 "restore": {
                     "parameters": {
                         "__IMTCONN__": {
-                            "label": "X",
+                            "label": "My X (formerly Twitter) OAuth 2.0 connection (SailuoSajia)",
                             "data": {
                                 "scoped": "true",
                                 "connection": "twitter2"
